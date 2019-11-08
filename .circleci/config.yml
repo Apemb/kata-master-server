@@ -4,6 +4,10 @@ executors:
   elixir-executor:
     docker:
       - image: elixir:1.9.1
+      - image: postgres:9.6.2-alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: kata_master_test
     working_directory: ~/app
 
   node-executor:
@@ -16,29 +20,32 @@ jobs:
     executor: elixir-executor
     working_directory: ~/app/back
     steps:
-      - checkout
+      - checkout:
+          path: ~/app
       - run: mix local.hex --force
       - run: mix local.rebar --force
       - run: mix deps.get
       - persist_to_workspace:
-          root: ./back
+          root: .
           paths: deps
 
   get_vue_dependencies:
     executor: node-executor
     working_directory: ~/app/front
     steps:
-      - checkout
+      - checkout:
+          path: ~/app
       - run: npm install
       - persist_to_workspace:
-          root: ./front
+          root: .
           paths: node_modules
 
   test_elixir:
     executor: elixir-executor
     working_directory: ~/app/back
     steps:
-      - checkout
+      - checkout:
+          path: ~/app
       - run: mix local.hex --force
       - run: mix local.rebar --force
       - attach_workspace:
@@ -49,7 +56,8 @@ jobs:
     executor: node-executor
     working_directory: ~/app/front
     steps:
-      - checkout
+      - checkout:
+          path: ~/app
       - attach_workspace:
           at: .
       - run: npm test
