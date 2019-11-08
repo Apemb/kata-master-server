@@ -1,0 +1,2 @@
+phoenix: cd back && mix phx.server
+react: cd front && yarn start

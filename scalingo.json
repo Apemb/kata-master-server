@@ -1,0 +1,22 @@
+{
+  "scripts": {
+    "first-deploy": "cd back && mix ecto.setup-ra"
+  },
+  "addons": [
+    "postgresql:postgresql-sandbox"
+  ],
+  "formation": {
+    "web": {
+      "amount": 1,
+      "size": "S"
+    }
+  },
+  "env": {
+    "IS_REVIEW_APP": {
+      "value": "true"
+    },
+    "CANONICAL_HOST_URL": {
+      "generator": "url"
+    }
+  }
+}

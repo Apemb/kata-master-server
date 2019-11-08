@@ -1,0 +1,37 @@
+{
+  "name": "kairos",
+  "version": "1.0.0",
+  "description": "The Kairos app monorepo",
+  "scripts": {
+    "postinstall": "node ./scripts/install-app-dependencies.js",
+    "start": "overmind start -b 76,11 -f Procfile.dev",
+    "docker:start": "cd _docker/dev && docker-compose up",
+    "test": "yarn run back:test && yarn run front:test",
+    "lint": "yarn run back:lint && yarn run front:lint",
+    "format": "yarn run back:format && yarn run front:format",
+    "back:start": "cd back && mix phx.server",
+    "front:start": "cd front && yarn start",
+    "back:test": "cd back && mix test",
+    "front:test": "cd front && yarn test --watchAll=false",
+    "back:lint": "cd back && mix format --check-formatted && mix credo --strict",
+    "front:lint": "cd front && yarn lint",
+    "back:format": "cd back && mix format",
+    "front:format": "cd front && yarn format"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.deliver.ee:v1/kairos.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^3.0.8"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "cd ./back && mix format",
+      "commit-msg": "node ./scripts/git_hooks/prepend-commit-msg.js"
+    }
+  },
+  "dependencies": {}
+}
