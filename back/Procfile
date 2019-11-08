@@ -1,0 +1,2 @@
+web: mix phx.server
+postdeploy: mix ecto.migrate
