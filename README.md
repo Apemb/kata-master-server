@@ -69,7 +69,7 @@ And once you are connected to the postgres server on the postgres database:
 
 To install all dependencies :
 
-    yarn install
+    npm install
 
 There is a postinstall script in `./package.json` that call `./scripts/install-app-dependencies.js`
 This script will install the backend and frontend dependencies as well as the monorepo tooling.
@@ -77,23 +77,26 @@ This script will install the backend and frontend dependencies as well as the mo
 To install manually backend dependencies :
 
     cd back && mix deps.get
-    cd back/assets && yarn
+    cd back/assets && npm
 
 To install manually frontend dependencies :
 
-    cd front && yarn
+    cd front && npm
 
 #### 4. Setup project database
 
     cd back && mix ecto.setup
 
-#### 5. Launch projects
+#### 5. Complete env file
 
-    yarn start
+Copy `.env.example` and rename it `.env`
 
-    OR
+Complete then all the env variables for the application to launch.
 
-    yarn docker:start
+#### 6. Launch projects
+
+    npm start
+
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 Now you can visit [`localhost:5000`](http://localhost:5000) from your browser.
