@@ -47,7 +47,10 @@ defmodule KataMaster.MixProject do
       # Database
       {:phoenix_ecto, "~> 4.0"},
       {:ecto_sql, "~> 3.1"},
-      {:postgrex, ">= 0.0.0"}
+      {:postgrex, ">= 0.0.0"},
+
+      # HTTP Client
+      {:tesla, "~> 1.3"}
     ]
   end
 
