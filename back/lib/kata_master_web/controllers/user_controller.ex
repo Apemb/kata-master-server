@@ -1,25 +1,38 @@
 defmodule KataMasterWeb.UserController do
   use KataMasterWeb, :controller
 
+  alias KataMasterUsecase.AuthenticateUser
   #  def index(conn, _params) do
   #    users = Accounts.list_users_with_identities()
   #    render(conn, "index.html", users: users)
   #  end
 
-  def create(conn, %{"user" => user_params}) do
-    case Accounts.create_user(user_params) do
-      {:ok, user} ->
-        conn
-        |> put_flash(:success, dgettext("accounts", "User created successfully."))
-        |> put_flash(
-          :info,
-          dgettext("accounts", "Temporary password is %{password}", password: user.password)
-        )
-        |> redirect(to: Routes.user_path(conn, :show, user))
+  def create(conn, %{"code" => code}) do
+    result =
+      %AuthenticateUser{code: code}
+      |> Chain.new()
+      |> Chain.next(&KataMasterUsecase.run/1)
+      |> Chain.next(&Map.from_struct/1)
+      |> Chain.run()
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+    case result do
+      {:ok, user} -> json(conn, user)
+      {:error, reason} -> {:error, reason}
     end
+
+    #    case Accounts.create_user(user_params) do
+    #      {:ok, user} ->
+    #        conn
+    #        |> put_flash(:success, dgettext("accounts", "User created successfully."))
+    #        |> put_flash(
+    #          :info,
+    #          dgettext("accounts", "Temporary password is %{password}", password: user.password)
+    #        )
+    #        |> redirect(to: Routes.user_path(conn, :show, user))
+    #
+    #      {:error, %Ecto.Changeset{} = changeset} ->
+    #        render(conn, "new.html", changeset: changeset)
+    #    end
   end
 
   #  def show(conn, %{"id" => id}) do

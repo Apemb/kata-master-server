@@ -40,5 +40,6 @@ defmodule KataMasterWeb.Endpoint do
     key: "_kata_master_key",
     signing_salt: "C6e/SpX0"
 
+  plug(CORSPlug, origin: "*")
   plug KataMasterWeb.Router
 end

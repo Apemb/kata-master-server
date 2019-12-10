@@ -2,10 +2,12 @@ defmodule KataMasterWeb.Router do
   use KataMasterWeb, :router
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   scope "/api", KataMasterWeb do
-    pipe_through :api
+    pipe_through(:api)
+
+    resources("/user", UserController, only: [:create])
   end
 end

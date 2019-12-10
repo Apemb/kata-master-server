@@ -39,7 +39,7 @@ client_secret =
     environment variable GITHUB_CLIENT_SECRET is missing.
     """
 
-config :ueberauth, Ueberauth.Strategy.Github.OAuth,
+config :kata_master, KataMasterInfra.GithubClient,
   client_id: client_id,
   client_secret: client_secret
 

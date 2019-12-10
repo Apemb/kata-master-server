@@ -37,8 +37,8 @@ defmodule KataMaster.MixProject do
       {:phoenix, "~> 1.4.10"},
       {:phoenix_pubsub, "~> 1.1"},
       {:gettext, "~> 0.11"},
-      {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
+      {:cors_plug, "~> 2.0"},
 
       # Auth
       {:ueberauth, "~> 0.6"},
@@ -50,7 +50,12 @@ defmodule KataMaster.MixProject do
       {:postgrex, ">= 0.0.0"},
 
       # HTTP Client
-      {:tesla, "~> 1.3"}
+      {:jason, "~> 1.0"},
+      {:tesla, "~> 1.3"},
+      {:hackney, "~> 1.14.0"},
+
+      # UTILS
+      {:chain, "~> 0.1.0"}
     ]
   end
 

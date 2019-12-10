@@ -14,7 +14,7 @@ export default {
   methods: {
     startLogin () {
       // eslint-disable-next-line no-undef
-      window.location.href = 'https://github.com/login/oauth/authorize?client_id='
+      window.location.href = 'https://github.com/login/oauth/authorize?client_id=6dafe33f40dc6935db63'
     }
   }
 }
