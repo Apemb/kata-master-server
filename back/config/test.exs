@@ -16,3 +16,17 @@ config :kata_master, KataMasterWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+client_id = "TEST_GITHUB_CLIENT_ID"
+client_secret = "TEST_GITHUB_CLIENT_SECRET"
+
+config :kata_master, KataMasterInfra.GithubClient,
+  client_id: client_id,
+  client_secret: client_secret
+
+# Configures Guardian
+token_secret = "TEST_TOKEN_SECRET"
+
+config :kata_master, KataMasterWeb.TokenService,
+  issuer: "KataMaster",
+  secret_key: token_secret
