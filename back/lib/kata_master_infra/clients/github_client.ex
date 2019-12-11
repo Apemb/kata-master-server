@@ -11,7 +11,11 @@ defmodule KataMasterInfra.GithubClient do
   @client_secret Keyword.get(@client_env, :client_secret)
 
   def exchange_code(code) do
-    request_body = %{code: code, client_id: @client_id, client_secret: @client_secret}
+    IO.inspect("exchange_code")
+
+    request_body =
+      %{code: code, client_id: @client_id, client_secret: @client_secret}
+      |> IO.inspect()
 
     middleware = [
       {Tesla.Middleware.BaseUrl, "https://github.com"},
@@ -60,7 +64,7 @@ defmodule KataMasterInfra.GithubClient do
     case request do
       {:ok, %Tesla.Env{status: 200} = response} ->
         user = %GithubUserEntity{
-          id: Map.get(response.body, "id"),
+          id: "#{Map.get(response.body, "id")}",
           login: Map.get(response.body, "login"),
           name: Map.get(response.body, "name"),
           email: Map.get(response.body, "email")

@@ -4,27 +4,26 @@ defmodule KataMasterInfra.UserTable do
 
   alias __MODULE__
 
-  @primary_key {:id, :binary_id, autogenerate: false}
+  @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "users" do
     field(:pseudo, :string)
     field(:name, :string)
     field(:email, :string)
+    field(:github_id, :string)
 
     timestamps()
   end
 
-  #  def base_changeset(%UserTable{} = shift, attrs) do
-  #    shift
-  #    |> cast(attrs, [
-  #      :name,
-  #      :start_at,
-  #      :end_at,
-  #      :drivers_instructions,
-  #      :service_request_id
-  #    ])
-  #    |> foreign_key_constraint(:service_request_id)
-  #  end
+  def user_aggregate_changeset(%UserTable{} = user, attrs) do
+    user
+    |> cast(attrs, [
+      :pseudo,
+      :name,
+      :email,
+      :github_id
+    ])
+  end
 
   #  def with_recurring_shift_changeset(shift, attrs, timezone) do
   #    changeset = base_changeset(shift, attrs)
