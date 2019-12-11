@@ -56,6 +56,16 @@ config :phoenix, :stacktrace_depth, 20
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
 
+client_id = System.get_env("GITHUB_CLIENT_ID")
+client_secret = System.get_env("GITHUB_CLIENT_SECRET")
+
 config :kata_master, KataMasterInfra.GithubClient,
-  client_id: System.get_env("GITHUB_CLIENT_ID"),
-  client_secret: System.get_env("GITHUB_CLIENT_SECRET")
+  client_id: client_id,
+  client_secret: client_secret
+
+# Configures Guardian
+token_secret = System.get_env("TOKEN_SECRET")
+
+config :kata_master, KataMasterWeb.TokenService,
+  issuer: "KataMaster",
+  secret_key: token_secret

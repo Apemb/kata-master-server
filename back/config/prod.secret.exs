@@ -43,6 +43,16 @@ config :kata_master, KataMasterInfra.GithubClient,
   client_id: client_id,
   client_secret: client_secret
 
+token_secret =
+  System.get_env("TOKEN_SECRET") ||
+    raise """
+    environment variable TOKEN_SECRET is missing.
+    """
+
+config :kata_master, KataMasterWeb.TokenService,
+  issuer: "KataMaster",
+  secret_key: token_secret
+
 # ## Using releases (Elixir v1.9+)
 #
 # If you are doing OTP releases, you need to instruct Phoenix

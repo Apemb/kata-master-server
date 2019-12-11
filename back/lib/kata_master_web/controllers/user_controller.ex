@@ -1,5 +1,7 @@
 defmodule KataMasterWeb.UserController do
   use KataMasterWeb, :controller
+  alias KataMasterDomain.UserEntity
+  alias KataMasterWeb.TokenService
 
   alias KataMasterUsecase.AuthenticateUser
   #  def index(conn, _params) do
@@ -12,11 +14,11 @@ defmodule KataMasterWeb.UserController do
       %AuthenticateUser{code: code}
       |> Chain.new()
       |> Chain.next(&KataMasterUsecase.run/1)
-      |> Chain.next(&Map.from_struct/1)
+      |> Chain.next(&generate_token_payload/1)
       |> Chain.run()
 
     case result do
-      {:ok, user} -> json(conn, user)
+      {:ok, token_payload} -> json(conn, token_payload)
       {:error, reason} -> {:error, reason}
     end
 
@@ -33,6 +35,13 @@ defmodule KataMasterWeb.UserController do
     #      {:error, %Ecto.Changeset{} = changeset} ->
     #        render(conn, "new.html", changeset: changeset)
     #    end
+  end
+
+  defp generate_token_payload(%UserEntity{} = user_entity) do
+    case TokenService.encode_and_sign(user_entity) do
+      {:ok, token, _} -> {:ok, %{token: token}}
+      {:error, reason} -> {:error, reason}
+    end
   end
 
   #  def show(conn, %{"id" => id}) do
