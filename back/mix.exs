@@ -54,8 +54,11 @@ defmodule KataMaster.MixProject do
       {:tesla, "~> 1.3"},
       {:hackney, "~> 1.14.0"},
 
-      # UTILS
-      {:chain, "~> 0.1.0"}
+      # Utils
+      {:chain, "~> 0.1.0"},
+
+      # Tests
+      {:credo, "~> 1.1.4", only: [:dev, :test], runtime: false}
     ]
   end
 

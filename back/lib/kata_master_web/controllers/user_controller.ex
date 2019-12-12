@@ -9,7 +9,7 @@ defmodule KataMasterWeb.UserController do
   #    render(conn, "index.html", users: users)
   #  end
 
-  def create(conn, %{"code" => code}) do
+  def login(conn, %{"code" => code}) do
     result =
       %AuthenticateUser{code: code}
       |> Chain.new()
@@ -21,20 +21,6 @@ defmodule KataMasterWeb.UserController do
       {:ok, token_payload} -> json(conn, token_payload)
       {:error, reason} -> {:error, reason}
     end
-
-    #    case Accounts.create_user(user_params) do
-    #      {:ok, user} ->
-    #        conn
-    #        |> put_flash(:success, dgettext("accounts", "User created successfully."))
-    #        |> put_flash(
-    #          :info,
-    #          dgettext("accounts", "Temporary password is %{password}", password: user.password)
-    #        )
-    #        |> redirect(to: Routes.user_path(conn, :show, user))
-    #
-    #      {:error, %Ecto.Changeset{} = changeset} ->
-    #        render(conn, "new.html", changeset: changeset)
-    #    end
   end
 
   defp generate_token_payload(%UserEntity{} = user_entity) do
@@ -44,18 +30,14 @@ defmodule KataMasterWeb.UserController do
     end
   end
 
-  #  def show(conn, %{"id" => id}) do
-  #    user = Accounts.get_user_with_identities!(id)
-  #
-  #    identity_changeset = Accounts.new_identity_changeset()
-  #
-  #    render(conn, "show.html",
-  #      user: user,
-  #      identity_changeset: identity_changeset,
-  #      clients_with_warehouses: Clients.list_clients_with_warehouses(),
-  #      providers: Providers.list_providers()
-  #    )
-  #  end
+  def get_me(conn, _args) do
+    user = Guardian.Plug.current_resource(conn)
+
+    case user do
+      %UserEntity{} = user -> json(conn, Map.from_struct(user))
+      _ -> {:error, :unauthorized}
+    end
+  end
 
   #  def update(conn, %{"id" => id, "user" => user_params}) do
   #    user = Accounts.get_user_with_identities!(id)

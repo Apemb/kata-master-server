@@ -14,7 +14,7 @@ defmodule KataMasterWeb.TokenService do
 
   def resource_from_claims(%{"sub" => id}) do
     case UserEntityRepository.get(id) do
-      {:error, {:resource_not_found, [name: :user_entity, id: id]}} ->
+      {:error, {:resource_not_found, [name: :user_entity, id: _id]}} ->
         {:error, :no_resource_found}
 
       {:ok, user_entity} ->

@@ -18,5 +18,6 @@ defmodule KataMasterUsecase.Ports.GithubClient do
 
   @impl Behaviour
   defdelegate exchange_code(code), to: @impl_module
+  @impl Behaviour
   defdelegate get_authenticated_user(token), to: @impl_module
 end

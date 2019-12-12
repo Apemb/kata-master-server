@@ -14,6 +14,8 @@ defmodule KataMaster.DataCase do
 
   use ExUnit.CaseTemplate
 
+  alias Ecto.Adapters.SQL
+
   using do
     quote do
       alias KataMaster.Repo
@@ -26,10 +28,10 @@ defmodule KataMaster.DataCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(KataMaster.Repo)
+    :ok = SQL.Sandbox.checkout(KataMaster.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(KataMaster.Repo, {:shared, self()})
+      SQL.Sandbox.mode(KataMaster.Repo, {:shared, self()})
     end
 
     :ok

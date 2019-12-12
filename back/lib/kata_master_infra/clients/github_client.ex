@@ -1,6 +1,6 @@
 defmodule KataMasterInfra.GithubClient do
-  alias KataMasterDomain.TokenDataObject
   alias KataMasterDomain.GithubUserEntity
+  alias KataMasterDomain.TokenDataObject
 
   @behaviour KataMasterUsecase.Ports.GithubClient.Behaviour
 
@@ -11,11 +11,7 @@ defmodule KataMasterInfra.GithubClient do
   @client_secret Keyword.get(@client_env, :client_secret)
 
   def exchange_code(code) do
-    IO.inspect("exchange_code")
-
-    request_body =
-      %{code: code, client_id: @client_id, client_secret: @client_secret}
-      |> IO.inspect()
+    request_body = %{code: code, client_id: @client_id, client_secret: @client_secret}
 
     middleware = [
       {Tesla.Middleware.BaseUrl, "https://github.com"},
@@ -29,7 +25,7 @@ defmodule KataMasterInfra.GithubClient do
       |> Tesla.post("login/oauth/access_token", request_body)
 
     case request do
-      {:ok, %Tesla.Env{status: 200, body: %{"error" => error}} = response} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"error" => _error}} = response} ->
         {:error, {:request_error, response}}
 
       {:ok, %Tesla.Env{status: 200} = response} ->

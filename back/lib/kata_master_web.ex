@@ -24,6 +24,8 @@ defmodule KataMasterWeb do
       import Plug.Conn
       import KataMasterWeb.Gettext
       alias KataMasterWeb.Router.Helpers, as: Routes
+
+      action_fallback KataMasterWeb.FallbackController
     end
   end
 
